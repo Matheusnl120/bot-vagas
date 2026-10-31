@@ -2,7 +2,6 @@ import os
 import json
 import logging
 from google import genai
-from google.genai import types
 
 # Configuração de Logs
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -72,6 +71,9 @@ def avaliar_vaga(vaga, perfil_candidato):
             logging.warning(f"⚠️ Falha no modelo {nome_modelo}: {e}")
 
     return {"compativel": False, "motivo": "Todos os modelos do Gemini falharam ou estão indisponíveis"}
+
+# ATALHO DE COMPATIBILIDADE: Garante que qualquer chamada antiga encontre a função atual
+analisar_compatibilidade_vaga = avaliar_vaga
 
 def gerar_resumo_e_melhorias(vagas_rejeitadas, perfil_candidato):
     """
