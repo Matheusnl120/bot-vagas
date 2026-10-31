@@ -14,7 +14,7 @@ MODELOS_GEMINI = [
 ]
 
 def carregar_perfil(caminho="perfil_candidato.json"):
-    """Carrega o perfil do candidato a partir do arquivo JSON (exigido pelo run.py)."""
+    """Carrega o perfil do candidato a partir do arquivo JSON."""
     try:
         if os.path.exists(caminho):
             with open(caminho, "r", encoding="utf-8") as f:
@@ -38,13 +38,16 @@ def criar_cliente_gemini():
         logging.error(f"Erro ao inicializar cliente Gemini: {e}")
         return None
 
-def analisar_compatibilidade_vaga(vaga, perfil_candidato):
+def analisar_compatibilidade_vaga(vaga, perfil_candidato=None, client=None, **kwargs):
     """
     Avalia a compatibilidade de uma vaga com o perfil do candidato.
-    Nome original preservado para evitar qualquer ImportError no run.py.
+    Assinatura flexível para aceitar chamadas do run.py com 'client' ou 'perfil_candidato'.
     """
-    client = criar_cliente_gemini()
-    if not client:
+    if perfil_candidato is None:
+        perfil_candidato = carregar_perfil()
+
+    gemini_client = client if client is not None else criar_cliente_gemini()
+    if not gemini_client:
         return {"compativel": False, "motivo": "API Key ausente ou inválida"}
 
     prompt = f"""
@@ -70,7 +73,7 @@ def analisar_compatibilidade_vaga(vaga, perfil_candidato):
 
     for nome_modelo in MODELOS_GEMINI:
         try:
-            response = client.models.generate_content(
+            response = gemini_client.models.generate_content(
                 model=nome_modelo,
                 contents=prompt,
             )
@@ -85,10 +88,10 @@ def analisar_compatibilidade_vaga(vaga, perfil_candidato):
 
     return {"compativel": False, "motivo": "Todos os modelos do Gemini falharam ou estão indisponíveis"}
 
-# Alias de compatibilidade caso outras partes chamem 'avaliar_vaga'
+# Alias de compatibilidade
 avaliar_vaga = analisar_compatibilidade_vaga
 
-def gerar_resumo_e_melhorias(vagas_rejeitadas, perfil_candidato):
+def gerar_resumo_e_melhorias(vagas_rejeitadas, perfil_candidato=None):
     """
     Gera um relatório consolidado com os principais motivos de descarte
     e recomendações práticas de desenvolvimento profissional para o currículo.
@@ -96,8 +99,11 @@ def gerar_resumo_e_melhorias(vagas_rejeitadas, perfil_candidato):
     if not vagas_rejeitadas:
         return "Nenhuma vaga foi descartada nesta busca."
 
-    client = criar_cliente_gemini()
-    if not client:
+    if perfil_candidato is None:
+        perfil_candidato = carregar_perfil()
+
+    gemini_client = criar_cliente_gemini()
+    if not gemini_client:
         return "Não foi possível gerar dicas de melhoria (API Key ausente)."
 
     resumo_descartes = []
@@ -121,7 +127,7 @@ def gerar_resumo_e_melhorias(vagas_rejeitadas, perfil_candidato):
 
     for nome_modelo in MODELOS_GEMINI:
         try:
-            response = client.models.generate_content(
+            response = gemini_client.models.generate_content(
                 model=nome_modelo,
                 contents=prompt,
             )
