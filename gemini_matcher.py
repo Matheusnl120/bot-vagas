@@ -13,8 +13,8 @@ MODELOS_GEMINI = [
     "gemini-1.5-pro"
 ]
 
-def obter_cliente_gemini():
-    """Inicializa o cliente oficial da SDK Google GenAI."""
+def criar_cliente_gemini():
+    """Inicializa e retorna o cliente oficial da SDK Google GenAI (exigido pelo run.py)."""
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
         logging.error("❌ GEMINI_API_KEY não foi encontrada nas variáveis de ambiente.")
@@ -30,7 +30,7 @@ def avaliar_vaga(vaga, perfil_candidato):
     Avalia a compatibilidade de uma vaga com o perfil do candidato.
     Retorna um dicionário com a decisão e o motivo.
     """
-    client = obter_cliente_gemini()
+    client = criar_cliente_gemini()
     if not client:
         return {"compativel": False, "motivo": "API Key ausente ou inválida"}
 
@@ -72,7 +72,7 @@ def avaliar_vaga(vaga, perfil_candidato):
 
     return {"compativel": False, "motivo": "Todos os modelos do Gemini falharam ou estão indisponíveis"}
 
-# ATALHO DE COMPATIBILIDADE: Garante que qualquer chamada antiga encontre a função atual
+# ATALHO OBRIGATÓRIO: Garante que o run.py encontre exatamente a função que procura
 analisar_compatibilidade_vaga = avaliar_vaga
 
 def gerar_resumo_e_melhorias(vagas_rejeitadas, perfil_candidato):
@@ -83,7 +83,7 @@ def gerar_resumo_e_melhorias(vagas_rejeitadas, perfil_candidato):
     if not vagas_rejeitadas:
         return "Nenhuma vaga foi descartada nesta busca."
 
-    client = obter_cliente_gemini()
+    client = criar_cliente_gemini()
     if not client:
         return "Não foi possível gerar dicas de melhoria (API Key ausente)."
 
