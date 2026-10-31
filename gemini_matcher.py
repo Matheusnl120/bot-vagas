@@ -191,7 +191,7 @@ def analisar_compatibilidade_vaga(
         perfil = carregar_perfil()
     prompt = _gerar_prompt_analise(vaga, perfil)
 
-    modelos = ["gemini-3.1-flash-lite", "gemini-3.5-flash", "gemini-3.8-flash"]
+    modelos = ["gemini-1.5-flash", "gemini-1.5-flash-8b", "gemini-1.5-pro"]
     ultimo_erro = None
 
     for mod in modelos:
