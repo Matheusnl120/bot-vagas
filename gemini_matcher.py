@@ -1,48 +1,39 @@
 import os
 import json
 import logging
-import google.generativeai as genai
+from google import genai
+from google.genai import types
 
 # Configuração de Logs
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
-# Lista de modelos por ordem de prioridade (evita erros 503 com o flash-8b)
+# Lista de modelos por ordem de prioridade (evita erros 503 com versões leves)
 MODELOS_GEMINI = [
     "gemini-1.5-flash-8b",
     "gemini-1.5-flash",
     "gemini-1.5-pro"
 ]
 
-def inicializar_gemini():
-    """Configura a API Key do Gemini a partir das variáveis de ambiente."""
+def obter_cliente_gemini():
+    """Inicializa o cliente oficial da SDK Google GenAI."""
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
         logging.error("❌ GEMINI_API_KEY não foi encontrada nas variáveis de ambiente.")
-        return False
-    genai.configure(api_key=api_key)
-    return True
-
-def obter_modelo_disponivel():
-    """Tenta instanciar o modelo Gemini alternando entre os disponíveis se houver instabilidade."""
-    for nome_modelo in MODELOS_GEMINI:
-        try:
-            modelo = genai.GenerativeModel(nome_modelo)
-            return modelo, nome_modelo
-        except Exception as e:
-            logging.warning(f"⚠️ Não foi possível carregar o modelo {nome_modelo}: {e}")
-    return None, None
+        return None
+    try:
+        return genai.Client(api_key=api_key)
+    except Exception as e:
+        logging.error(f"Erro ao inicializar cliente Gemini: {e}")
+        return None
 
 def avaliar_vaga(vaga, perfil_candidato):
     """
     Avalia a compatibilidade de uma vaga com o perfil do candidato.
     Retorna um dicionário com a decisão e o motivo.
     """
-    if not inicializar_gemini():
-        return {"compativel": False, "motivo": "API Key ausente"}
-
-    modelo, nome_modelo_usado = obter_modelo_disponivel()
-    if not modelo:
-        return {"compativel": False, "motivo": "Todos os modelos do Gemini falharam ou estão indisponíveis"}
+    client = obter_cliente_gemini()
+    if not client:
+        return {"compativel": False, "motivo": "API Key ausente ou inválida"}
 
     prompt = f"""
     Você é um recrutador técnico experiente. Avalie se a vaga abaixo é compatível com o perfil do candidato.
@@ -57,7 +48,7 @@ def avaliar_vaga(vaga, perfil_candidato):
     Descrição/Requisitos: {vaga.get('descricao', 'N/A')}
 
     --- REGRAS DE AVALIAÇÃO ---
-    1. Retorne APENAS um JSON válido no seguinte formato exato (sem formatação markdown ```json):
+    1. Retorne APENAS um JSON válido no seguinte formato exato (sem marcações markdown ```json):
     {{
         "compativel": true ou false,
         "pontuacao": 0 a 100,
@@ -65,19 +56,22 @@ def avaliar_vaga(vaga, perfil_candidato):
     }}
     """
 
-    try:
-        resposta = modelo.generate_content(prompt)
-        texto_resposta = resposta.text.strip()
-        
-        # Limpa possíveis marcações de bloco de código do markdown
-        if texto_resposta.startswith("```"):
-            texto_resposta = texto_resposta.replace("```json", "").replace("```", "").strip()
+    for nome_modelo in MODELOS_GEMINI:
+        try:
+            response = client.models.generate_content(
+                model=nome_modelo,
+                contents=prompt,
+            )
+            texto_resposta = response.text.strip()
             
-        resultado = json.loads(texto_resposta)
-        return resultado
-    except Exception as e:
-        logging.error(f"Erro ao processar vaga com Gemini ({nome_modelo_usado}): {e}")
-        return {"compativel": False, "motivo": f"Erro na análise da IA: {str(e)}"}
+            if texto_resposta.startswith("```"):
+                texto_resposta = texto_resposta.replace("```json", "").replace("```", "").strip()
+                
+            return json.loads(texto_resposta)
+        except Exception as e:
+            logging.warning(f"⚠️ Falha no modelo {nome_modelo}: {e}")
+
+    return {"compativel": False, "motivo": "Todos os modelos do Gemini falharam ou estão indisponíveis"}
 
 def gerar_resumo_e_melhorias(vagas_rejeitadas, perfil_candidato):
     """
@@ -87,12 +81,9 @@ def gerar_resumo_e_melhorias(vagas_rejeitadas, perfil_candidato):
     if not vagas_rejeitadas:
         return "Nenhuma vaga foi descartada nesta busca."
 
-    if not inicializar_gemini():
+    client = obter_cliente_gemini()
+    if not client:
         return "Não foi possível gerar dicas de melhoria (API Key ausente)."
-
-    modelo, _ = obter_modelo_disponivel()
-    if not modelo:
-        return "Não foi possível conectar ao Gemini para gerar o resumo."
 
     resumo_descartes = []
     for v in vagas_rejeitadas:
@@ -113,9 +104,14 @@ def gerar_resumo_e_melhorias(vagas_rejeitadas, perfil_candidato):
     2. 💡 Sugestão prática do que o candidato pode estudar ou melhorar no currículo para aumentar os acertos.
     """
 
-    try:
-        resposta = modelo.generate_content(prompt)
-        return resposta.text.strip()
-    except Exception as e:
-        logging.error(f"Erro ao gerar relatório de melhorias: {e}")
-        return "Erro ao consolidar feedback de melhorias com o Gemini."
+    for nome_modelo in MODELOS_GEMINI:
+        try:
+            response = client.models.generate_content(
+                model=nome_modelo,
+                contents=prompt,
+            )
+            return response.text.strip()
+        except Exception as e:
+            logging.warning(f"⚠️ Falha ao gerar resumo no modelo {nome_modelo}: {e}")
+
+    return "Erro ao consolidar feedback de melhorias com o Gemini."
