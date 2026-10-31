@@ -1,138 +1,93 @@
 {
-  "nome": "Luiz Henrique Rocha Silva",
-  "titulo": "Desenvolvedor Full Stack | TypeScript · Next.js · Nest.js · React",
-  "localizacao": "Olinda, PE - Brasil",
-  "email": "luiz.rochahenrique2006@gmail.com",
-  "telefone": "+55 (81) 98522-7931",
-  "linkedin": "https://linkedin.com/in/luiz-henrique-rocha-silva-dev",
-  "github": "https://github.com/Luizrocha0",
+  "nome": "Matheus Magalhães",
+  "titulo": "Estagiário de Suporte de TI | Atendimento ao Cliente | Ciência da Computação",
+  "localizacao": "São Vicente, SP - Brasil",
+  "email": "matheusmagalhaes.spt@hotmail.com",
+  "telefone": "+55 (13) 97410-2601",
+  "linkedin": "https://linkedin.com/in/thsml",
+  "github": "https://energyway.framer.website",
   "formacao": {
-    "instituicao": "CESAR School",
-    "curso": "Tecnólogo em Análise e Desenvolvimento de Sistemas (ADS)",
-    "previsao_conclusao": "2027 (4º Período)",
-    "detalhes": "Formação prática conectada ao ecossistema do Porto Digital, com foco em Engenharia de Software, Arquitetura de Dados, Microsserviços e Inteligência Artificial."
+    "instituicao": "Faculdade São Francisco de Assis",
+    "curso": "Bacharelado em Ciência da Computação",
+    "previsao_conclusao": "2030",
+    "detalhes": "Formação complementar em Engenharia Elétrica (FMU), Técnico em Edificações (IFSP) e Técnico em Sistemas de Energia Renovável (SENAI)."
   },
-  "resumo_profissional": "Desenvolvedor Full Stack especializado na criação de aplicações web modernas de ponta a ponta com Next.js e Nest.js (TypeScript). Experiência prática na entrega de produtos digitais em produção (SSR, SEO, alta conversão) e arquitetura de APIs RESTful modulares e desacopladas com Nest.js, Fastify e Spring Boot. Vivência com Clean Code, microsserviços, integração de IA e bancos de dados SQL/NoSQL.",
+  "resumo_profissional": "Estudante de Ciência da Computação com experiência em suporte técnico, atendimento ao cliente, operações e documentação de processos. Habilidade em resolução de problemas, CRM, Excel e Google Sheets, e em apoiar equipes com orientação técnica e fluxos de trabalho organizados[cite: 13].",
   "competencias": {
-    "linguagens": ["TypeScript", "JavaScript", "Python", "Java 17", "SQL"],
-    "frontend": [
-      "React",
-      "Next.js",
-      "Tailwind CSS",
-      "HTML5/CSS3",
-      "Design Responsivo",
-      "Server-Side Rendering (SSR)",
-      "SEO Técnico",
-      "TanStack Query",
-      "Radix UI",
-      "shadcn/ui",
-      "Vite"
-    ],
-    "backend": [
-      "Node.js",
-      "Nest.js",
-      "Fastify",
-      "Express",
-      "Spring Boot",
-      "Spring Data JPA",
-      "Spring Security",
-      "JWT",
-      "Arquitetura RESTful",
-      "Swagger/OpenAPI"
-    ],
-    "bancos_de_dados": [
-      "PostgreSQL",
-      "MySQL",
-      "Firebase (Authentication, Cloud Firestore)"
-    ],
-    "dados_e_ia": [
-      "Databricks",
-      "PySpark",
-      "Apache Spark",
-      "Arquitetura Medalhão (Bronze/Silver/Gold)",
-      "Integração de APIs de LLM/IA"
-    ],
-    "devops_e_ferramentas": [
-      "Docker",
-      "Git",
-      "GitHub",
-      "Linux",
-      "Postman",
-      "Vercel"
+    "linguagens": ["Python"],
+    "frontend": [],
+    "backend": [],
+    "bancos_de_dados": [],
+    "dados_e_ia": ["Google Apps Script", "Google Sheets"],
+    "ferramentas_e_suporte": [
+      "Suporte Técnico",
+      "Atendimento ao Cliente",
+      "Resolução de Problemas",
+      "CRM",
+      "Excel",
+      "Documentação",
+      "Organização",
+      "Orientação Técnica",
+      "Melhoria de Processos",
+      "Monday.com"
     ],
     "metodologias": [
-      "Scrum",
-      "Kanban",
-      "Clean Code",
-      "UI/UX",
-      "Inglês Técnico (Intermediário)"
+      "Organização de Processos",
+      "Fluxos de Trabalho",
+      "Atendimento Operacional"
     ]
   },
   "experiencias_e_projetos": [
     {
-      "titulo": "Desenvolvedor Full Stack (Freelancer) — Site Institucional para Escritório de Advocacia",
+      "titulo": "Operador de Loja — OXXO",
       "ano": "2026",
       "destaques": [
-        "Landing page institucional desenvolvida do zero focada em alta conversão e atração de clientes.",
-        "Server-Side Rendering (SSR) com Next.js alcançando excelente pontuação no Google Core Web Vitals.",
-        "SEO semântico e metadados estruturados para ranqueamento no Google.",
-        "Layout 100% responsivo e acessível com Tailwind CSS."
+        "Atendimento a clientes e apoio às operações diárias da loja, incluindo organização e reposição seguindo procedimentos[cite: 13].",
+        "Adaptação a diferentes equipes, rotinas, turnos e demandas operacionais em três unidades[cite: 13].",
+        "Condução de rotinas de loja de forma independente em turnos noturnos individuais, priorizando tarefas[cite: 13]."
       ],
-      "stack": ["Next.js", "React", "TypeScript", "Tailwind CSS", "SEO Técnico", "Vercel"]
+      "stack": ["Atendimento ao Cliente", "Organização", "Operações de Loja"]
     },
     {
-      "titulo": "Plataforma de Apostas e Estatísticas em Tempo Real — Hackathon EDScript",
-      "ano": "2026",
+      "titulo": "Estagiário de Engenharia Elétrica — Power2Go",
+      "ano": "2024 - 2026",
       "destaques": [
-        "Aplicação Full Stack end-to-end com API RESTful em Fastify para transmissão de dados em tempo real com baixa latência.",
-        "Front-end dinâmico (SPA/SSR) com Next.js e Tailwind CSS em Dark Mode.",
-        "Integração de IA generativa ('Palpite de Mestre') para análise contextualizada e recomendações."
+        "Suporte técnico às equipes comercial e de instalação, incluindo orientação sobre infraestrutura elétrica e eletromecânica[cite: 13].",
+        "Realização de visitas técnicas presenciais e remotas e gestão de agendamentos em todo o Brasil[cite: 13].",
+        "Registro de atividades em CRM, elaboração de instruções de instalação e documentação técnica[cite: 13]."
       ],
-      "stack": ["Next.js", "React", "TypeScript", "Node.js", "Fastify", "Tailwind CSS", "APIs RESTful", "Integração IA"]
+      "stack": ["Suporte Técnico", "CRM", "Documentação", "Atendimento"]
     },
     {
-      "titulo": "Pipeline de Dados Automotivo em Nuvem — Parceria NTT DATA & CESAR School",
-      "ano": "2025",
+      "titulo": "Estagiário de Engenharia — MHA Engenharia",
+      "ano": "2023 - 2024",
       "destaques": [
-        "Pipeline escalável de dados em nuvem voltado ao processamento e análise do setor automotivo.",
-        "Arquitetura Medalhão (Bronze, Silver e Gold) para consistência, limpeza e governança dos dados.",
-        "Processamento distribuído com PySpark no ambiente Databricks."
+        "Apoio ao desenvolvimento de projetos de sistemas eletrônicos, diagramas e detalhes técnicos[cite: 14].",
+        "Organização de listas de documentos, materiais e preenchimento de carimbos técnicos[cite: 14]."
       ],
-      "stack": ["Databricks", "PySpark", "Python", "Apache Spark", "Cloud Data Architecture"]
-    },
-    {
-      "titulo": "Arena PE — Plataforma de Gestão de Eventos — CESAR School",
-      "ano": "2026",
-      "destaques": [
-        "Solução Full Stack de cidades inteligentes para eventos na Arena Pernambuco.",
-        "API RESTful em Java 17 e Spring Boot com Spring Data JPA, OpenAPI/Swagger e RBAC (Spring Security + JWT).",
-        "Interface web moderna em React, TypeScript, Vite, Tailwind CSS, Radix UI (shadcn/ui) e TanStack Query."
-      ],
-      "stack": ["Java 17", "Spring Boot", "Spring Security", "JWT", "Swagger", "React", "TypeScript", "TanStack Query", "Tailwind CSS"]
+      "stack": ["Documentação Técnica", "Projetos", "Organização"]
     }
   ],
   "preferencias_busca": {
     "cargos_alvo": [
-      "Desenvolvedor Full Stack",
-      "Desenvolvedor Front-end",
-      "Desenvolvedor Back-end",
-      "Desenvolvedor Node.js",
-      "Desenvolvedor React",
-      "Desenvolvedor Next.js",
-      "Software Engineer"
+      "Suporte de TI",
+      "Estagiário de Suporte",
+      "Atendimento ao Cliente",
+      "Suporte Técnico",
+      "Analista de Suporte",
+      "Auxiliar de Operações"
     ],
-    "niveis": ["Estágio", "Júnior", "Trainee", "Pleno"],
-    "modalidades": ["Remoto", "Híbrido (Recife/Olinda - PE)", "Presencial (Recife/Olinda - PE)"],
+    "niveis": ["Estágio", "Júnior", "Trainee"],
+    "modalidades": ["Remoto", "Híbrido (São Vicente/Santos - SP)", "Presencial (São Vicente/Santos - SP)"],
     "palavras_chave": [
-      "TypeScript",
-      "React",
-      "Next.js",
-      "Node.js",
-      "Nest.js",
-      "Tailwind",
-      "Spring Boot",
+      "Suporte",
+      "Atendimento",
+      "CRM",
+      "Excel",
       "Python",
-      "PostgreSQL"
+      "Google Sheets",
+      "Documentação",
+      "Técnico"
     ]
   }
 }
