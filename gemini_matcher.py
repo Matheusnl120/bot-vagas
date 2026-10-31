@@ -94,6 +94,28 @@ def gerar_resumo_e_melhorias(vagas_rejeitadas, perfil_candidato):
     if not modelo:
         return "Não foi possível conectar ao Gemini para gerar o resumo."
 
-    # Extrai títulos e motivos para enviar à IA
-    resumo_descartes = [
-        f"- {v['titulo']} ({v.get('empresa', 'Empresa N
+    resumo_descartes = []
+    for v in vagas_rejeitadas:
+        titulo = v.get('titulo', 'N/A')
+        empresa = v.get('empresa', 'Empresa N/A')
+        motivo = v.get('motivo', 'Sem motivo especificado')
+        resumo_descartes.append(f"- {titulo} ({empresa}): {motivo}")
+
+    prompt = f"""
+    Você é um mentor de carreira de TI e Suporte. Analise a lista de vagas que foram REJEITADAS para o candidato {perfil_candidato.get('nome', 'Candidato')}:
+
+    --- VAGAS DESCARTADAS E MOTIVOS ---
+    {chr(10).join(resumo_descartes)}
+
+    --- TAREFA ---
+    Elabore um pequeno relatório informativo (máximo 4 a 5 linhas/tópicos) formatado para ser enviado via Telegram contendo:
+    1. ❌ Principais motivos das exclusões (ex: falta de requisitos específicos, nível de senioridade exigido, modalidade).
+    2. 💡 Sugestão prática do que o candidato pode estudar ou melhorar no currículo para aumentar os acertos.
+    """
+
+    try:
+        resposta = modelo.generate_content(prompt)
+        return resposta.text.strip()
+    except Exception as e:
+        logging.error(f"Erro ao gerar relatório de melhorias: {e}")
+        return "Erro ao consolidar feedback de melhorias com o Gemini."
