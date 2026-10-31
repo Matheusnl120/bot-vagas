@@ -13,11 +13,24 @@ MODELOS_GEMINI = [
     "gemini-1.5-pro"
 ]
 
+def carregar_perfil(caminho="perfil_candidato.json"):
+    """Carrega o perfil do candidato a partir do arquivo JSON (exigido pelo run.py)."""
+    try:
+        if os.path.exists(caminho):
+            with open(caminho, "r", encoding="utf-8") as f:
+                return json.load(f)
+        else:
+            logging.warning(f"⚠️ Ficheiro {caminho} não encontrado. A usar perfil vazio.")
+            return {}
+    except Exception as e:
+        logging.error(f"Erro ao carregar perfil: {e}")
+        return {}
+
 def criar_cliente_gemini():
-    """Inicializa e retorna o cliente oficial da SDK Google GenAI (exigido pelo run.py)."""
+    """Inicializa e retorna o cliente oficial da SDK Google GenAI."""
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
-        logging.error("❌ GEMINI_API_KEY não foi encontrada nas variáveis de ambiente.")
+        logging.error("❌ GEMINI_API_KEY não encontrada nas variáveis de ambiente.")
         return None
     try:
         return genai.Client(api_key=api_key)
@@ -25,10 +38,10 @@ def criar_cliente_gemini():
         logging.error(f"Erro ao inicializar cliente Gemini: {e}")
         return None
 
-def avaliar_vaga(vaga, perfil_candidato):
+def analisar_compatibilidade_vaga(vaga, perfil_candidato):
     """
     Avalia a compatibilidade de uma vaga com o perfil do candidato.
-    Retorna um dicionário com a decisão e o motivo.
+    Nome original preservado para evitar qualquer ImportError no run.py.
     """
     client = criar_cliente_gemini()
     if not client:
@@ -47,7 +60,7 @@ def avaliar_vaga(vaga, perfil_candidato):
     Descrição/Requisitos: {vaga.get('descricao', 'N/A')}
 
     --- REGRAS DE AVALIAÇÃO ---
-    1. Retorne APENAS um JSON válido no seguinte formato exato (sem marcações markdown ```json):
+    1. Retorne APENAS um JSON válido no seguinte formato exato (sem formatação markdown ```json):
     {{
         "compativel": true ou false,
         "pontuacao": 0 a 100,
@@ -72,13 +85,13 @@ def avaliar_vaga(vaga, perfil_candidato):
 
     return {"compativel": False, "motivo": "Todos os modelos do Gemini falharam ou estão indisponíveis"}
 
-# ATALHO OBRIGATÓRIO: Garante que o run.py encontre exatamente a função que procura
-analisar_compatibilidade_vaga = avaliar_vaga
+# Alias de compatibilidade caso outras partes chamem 'avaliar_vaga'
+avaliar_vaga = analisar_compatibilidade_vaga
 
 def gerar_resumo_e_melhorias(vagas_rejeitadas, perfil_candidato):
     """
     Gera um relatório consolidado com os principais motivos de descarte
-    e recomendações práticas de desenvolvimento profissional.
+    e recomendações práticas de desenvolvimento profissional para o currículo.
     """
     if not vagas_rejeitadas:
         return "Nenhuma vaga foi descartada nesta busca."
